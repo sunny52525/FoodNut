@@ -1,4 +1,4 @@
-package com.shaun.chefbook.ui.theme
+package com.shaun.foodnut.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

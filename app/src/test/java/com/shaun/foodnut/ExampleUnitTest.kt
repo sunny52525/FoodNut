@@ -1,4 +1,4 @@
-package com.shaun.chefbook
+package com.shaun.foodnut
 
 import org.junit.Test
 
