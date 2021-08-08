@@ -9,6 +9,7 @@ data class Nutrients(
     val cautions: ArrayList<String>,
     val totalNutrients: TotalNutrients,
     val totalDaily: TotalNutrients,
+    val totalNutrientsKCal: TotalNutrients?,
     val ingredients: ArrayList<Ingredient>,
 
     )
