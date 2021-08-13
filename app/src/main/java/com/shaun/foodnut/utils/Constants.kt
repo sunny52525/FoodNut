@@ -72,4 +72,68 @@ object Constants {
         "nutrients[VITD]",
         "nutrients[VITK1]",
     )
+
+    val DIET = listOf(
+        "balanced",
+        "high-fiber",
+        "high-protein",
+        "low-carb",
+        "low-fat",
+        "low-sodium",
+    )
+
+    val CUISINE_TYPE = listOf(
+        "American",
+        "Asian",
+        "British",
+        "Caribbean",
+        "Central Europe",
+        "Chinese",
+        "Eastern Europe",
+        "French",
+        "Indian",
+        "Italian",
+        "Japanese",
+        "Kosher",
+        "Mediterranean",
+        "Mexican",
+        "Middle Eastern",
+        "Nordic",
+        "South American",
+        "South East Asian"
+    )
+
+    val MEAL_TYPE = listOf(
+        "Breakfast",
+        "Dinner",
+        "Lunch",
+        "Snack",
+        "Teatime",
+    )
+
+    val DISH_TYPE = listOf(
+        "Biscuits and cookies",
+        "Bread",
+        "Cereals",
+        "Condiments and sauces",
+        "Desserts",
+        "Drinks",
+        "Main course",
+        "Pancake",
+        "Preps",
+        "Preserve",
+        "Salad",
+        "Sandwiches",
+        "Side dish",
+        "Soup",
+        "Starter",
+        "Sweets",
+    )
+
+    val IMAGE_SIZE = listOf(
+        "LARGE",
+        "REGULAR",
+        "SMALL",
+        "THUMBNAIL"
+    )
 }

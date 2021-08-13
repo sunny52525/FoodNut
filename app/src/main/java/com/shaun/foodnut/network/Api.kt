@@ -3,7 +3,9 @@ package com.shaun.foodnut.network
 import com.shaun.foodnut.models.Ingr
 import com.shaun.foodnut.models.foodparser.FoodParsed
 import com.shaun.foodnut.models.nutrients.Nutrients
+import com.shaun.foodnut.models.recipes.RecipeResponse
 import com.shaun.foodnut.models.requestobject.IngredientsRequestObject
+import com.shaun.foodnut.utils.Constants
 import retrofit2.http.*
 
 interface Api {
@@ -21,19 +23,19 @@ interface Api {
         @Query("app_key") appKey: String,
         @Query("ingr") ingr: String,
         /**
-         * @Constants.HEALTH_LABELS
+         * [Constants.HEALTH_LABELS]
          */
-        @QueryMap health: HashMap<String, String>,
+        @QueryMap health: HashMap<String, String> = HashMap(),
 
-        @QueryMap calories: HashMap<String, String> = HashMap(),
+        @Query("calories") calories: String = "0+",
         /**
-         * @Constants.FOOD_CATEGORIES
+         *  [Constants.FOOD_CATEGORIES]
          */
-        @QueryMap category: HashMap<String, String>,
+        @QueryMap category: HashMap<String, String> = HashMap(),
         /**
-         * @Constants.NUTRIENT_TYPES
+         * [Constants.NUTRIENT_TYPES]
          */
-        @QueryMap nutrients: HashMap<String, String>
+        @QueryMap nutrients: HashMap<String, String> = HashMap()
     ): FoodParsed
 
     @POST("api/food-database/v2/nutrients")
@@ -54,10 +56,65 @@ interface Api {
     suspend fun foodSearch(
         @Query("app_id") appId: String,
         @Query("app_key") appKey: String,
+        @Query("q") q: String,
         /**
-         * @Constants.HEALTH_LABELS
+         * [Constants.HEALTH_LABELS]
          */
-        @QueryMap health: HashMap<String, String>,
+        @QueryMap health: HashMap<String, String> = HashMap(),
 
         ): FoodParsed
+
+    @GET("/api/recipes/v2")
+    suspend fun getRecipe(
+        @Query("q") q: String,
+        @Query("app_id") appId: String,
+        @Query("app_key") appKey: String,
+        @Query("ingr") ingrCount: String = "0+",
+
+        /**
+         * [Constants.DIET]
+         */
+        @QueryMap diet: HashMap<String, String> = HashMap(),
+
+        /**
+         * [Constants.HEALTH_LABELS]
+         */
+        @QueryMap health: HashMap<String, String> = HashMap(),
+
+        /**
+         * [Constants.CUISINE_TYPE]
+         */
+        @QueryMap cuisineType: HashMap<String, String> = HashMap(),
+
+        /**
+         * [Constants.MEAL_TYPE]
+         */
+        @QueryMap mealType: HashMap<String, String> = HashMap(),
+
+        /**
+         * [Constants.DISH_TYPE]
+         */
+        @QueryMap dishType: HashMap<String, String> = HashMap(),
+
+        @Query("calories") calories: String = "0+",
+
+        /**
+         * [Constants.IMAGE_SIZE]
+         */
+        @QueryMap imageSize: HashMap<String, String> = HashMap(),
+
+        @QueryMap excluded: HashMap<String, String> = HashMap(),
+        /**
+         * [Constants.NUTRIENT_TYPES]
+         */
+        @QueryMap nutrients: HashMap<String, String> = HashMap()
+
+    ): RecipeResponse
+
+    @GET("api/recipes/v2/{id}")
+    suspend fun getARecipe(
+        @Query("id") recipeId: String,
+        @Query("app_id") appId: String,
+        @Query("app_key") appKey: String,
+        ): RecipeResponse
 }
