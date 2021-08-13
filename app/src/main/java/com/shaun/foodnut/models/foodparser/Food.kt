@@ -8,7 +8,7 @@ data class Food(
     val foodId: String,
     val image: String,
     val label: String,
-    val nutrients: Nutrients,
+    val nutrients: NutrientsItems,
     val servingSizes: List<ServingSize>,
     val servingsPerContainer: Int,
     val healthLabels:ArrayList<String>?,
