@@ -42,6 +42,7 @@ object Constants {
         "packaged-foods",
         "fast-foods"
     )
+
     val NUTRIENT_TYPES = listOf(
         "nutrients[CA]",
         "nutrients[CHOCDF]",
