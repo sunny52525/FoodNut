@@ -8,10 +8,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.*
@@ -26,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.ImagePainter
+import coil.compose.rememberImagePainter
 import com.shaun.foodnut.R
 import com.shaun.foodnut.ui.theme.FoodNutColors
 import com.shaun.foodnut.ui.theme.POPPINS
@@ -37,40 +35,45 @@ fun SelectableChips(
     icon: ImageVector, title: String,
     onSelectChange: () -> Unit,
     isSelected: Boolean,
-    color: Color,
-) {
 
+    ) {
+    var selected by remember { mutableStateOf(isSelected) }
+    val transition = updateTransition(selected, label = "")
+    val borderColor by transition.animateColor(label = "") { select ->
+        if (select) FoodNutColors.Green else Color.White
+    }
 
     Card(
-        shape = RoundedCornerShape(55), backgroundColor = color, modifier = Modifier
-            .defaultMinSize(minWidth = 100.dp)
+        shape = RoundedCornerShape(55), backgroundColor = borderColor, modifier = Modifier
             .height(50.dp)
             .toggleable(value = isSelected, onValueChange = {
+                selected = selected.not()
                 onSelectChange()
             })
     ) {
 
-        Box(
+        Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 5.dp)
+                .padding(start = 5.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
 
             Icon(
                 imageVector = icon,
                 contentDescription = "icon",
                 modifier = Modifier
-                    .align(Alignment.CenterStart)
+
                     .fillMaxHeight(),
                 tint = if (isSelected) Color.White else Color.Black
             )
+            Spacer(modifier = Modifier.width(10.dp))
             Text(
                 text = title,
                 color = if (isSelected) Color.White else Color.Black,
-                modifier = Modifier.align(
-                    Alignment.Center
+
                 )
-            )
+            Spacer(modifier = Modifier.width(10.dp))
 
         }
     }
@@ -81,7 +84,7 @@ fun SelectableChips(
 @ExperimentalMaterialApi
 @Composable
 fun FoodCardVertical(
-    image: ImagePainter?,
+    image: String,
     title: String,
     subtitle: String,
     isFavourite: Boolean,
@@ -91,16 +94,17 @@ fun FoodCardVertical(
 
     Card(
         onClick = onClick,
-        shape = RoundedCornerShape(15.dp)
+        shape = RoundedCornerShape(15.dp),
+//        backgroundColor = Color.White
     ) {
         Column(
             Modifier
-                .fillMaxWidth()
+                .width(200.dp)
                 .padding(SidePadding)
                 .height(350.dp)
         ) {
             Image(
-                painter = image ?: painterResource(id = R.drawable.food_dummy),
+                painter = rememberImagePainter(data = image),
                 contentDescription = "food_image",
                 modifier = Modifier
                     .fillMaxWidth()
@@ -109,7 +113,13 @@ fun FoodCardVertical(
             )
             Spacer(modifier = Modifier.height(10.dp))
 
-            FoodTitleCard(title, subtitle, onFavouriteClicked, isFavourite)
+            FoodTitleCard(
+                modifier = Modifier.fillMaxWidth(),
+                title = title,
+                subtitle = subtitle,
+                onFavouriteClicked = onFavouriteClicked,
+                isFavourite = isFavourite
+            )
 
 
         }
@@ -148,7 +158,13 @@ fun FoodCardHorizontal(
             )
             Spacer(modifier = Modifier.width(10.dp))
 
-            FoodTitleCard(title, subtitle, onFavouriteClicked, isFavourite)
+            FoodTitleCard(
+                modifier = Modifier.fillMaxHeight(),
+                title = title,
+                subtitle = subtitle,
+                onFavouriteClicked = onFavouriteClicked,
+                isFavourite = isFavourite
+            )
 
 
         }
@@ -159,14 +175,15 @@ fun FoodCardHorizontal(
 @ExperimentalMaterialApi
 @Composable
 private fun FoodTitleCard(
+    modifier: Modifier,
     title: String,
     subtitle: String,
     onFavouriteClicked: () -> Unit,
     isFavourite: Boolean
 ) {
     Column(
-        Modifier
-            .fillMaxHeight()
+        modifier
+//            .fillMaxHeight()
     ) {
         Text(
             text = title,
@@ -195,9 +212,9 @@ private fun FoodTitleCard(
                 )
             )
 
-            Card(
-                onClick = { onFavouriteClicked() },
-                backgroundColor = Color.Gray.copy(alpha = 0.4f),
+            Surface(
+                onClick = onFavouriteClicked,
+                color = Color.Gray.copy(alpha = 0.4f),
                 shape = CircleShape,
                 modifier = Modifier
                     .align(
@@ -211,8 +228,8 @@ private fun FoodTitleCard(
                     modifier = Modifier.padding(10.dp),
                     tint = if (isFavourite) Color.Red else Color.White
                 )
-
             }
+
         }
     }
 }
@@ -235,7 +252,7 @@ fun FoodCardPreview() {
         }
         Spacer(modifier = Modifier.height(20.dp))
         FoodCardVertical(
-            image = null,
+            image = "",
             title = "Chopped Spring",
             subtitle = "Onion and Chips",
             onClick = { /*TODO*/ },
@@ -253,10 +270,7 @@ fun FoodCardPreview() {
 @Preview
 fun SelectableChipPreview() {
     var selected by remember { mutableStateOf(true) }
-    val transition = updateTransition(selected, label = "")
-    val borderColor by transition.animateColor(label = "") { isSelected ->
-        if (isSelected) FoodNutColors.Green else Color.White
-    }
+
     LazyRow(content = {
         repeat(10) {
             item(it) {
@@ -268,9 +282,39 @@ fun SelectableChipPreview() {
                     },
                     isSelected = selected,
 
-                    color = borderColor
-                )
+                    )
             }
         }
     })
+}
+
+
+@Composable
+fun TopArea(
+    modifier: Modifier = Modifier,
+    content: @Composable() () -> Unit
+) {
+    Column(modifier = modifier.fillMaxWidth()) {
+        content()
+    }
+}
+
+@Composable
+fun Suggestions(
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    Column(modifier.fillMaxWidth()) {
+        content()
+    }
+}
+
+@Composable
+fun BottomHomeItems(
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    Column(modifier.fillMaxWidth()) {
+        content()
+    }
 }

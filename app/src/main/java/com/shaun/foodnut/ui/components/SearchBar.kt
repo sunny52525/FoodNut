@@ -20,12 +20,21 @@ import com.shaun.foodnut.ui.theme.POPPINS
 @Composable
 fun SearchPlaceholder(placeholder: String, onClick: () -> Unit) {
 
-    Card(onClick = onClick, modifier = Modifier
-        .fillMaxWidth()
-        .height(45.dp), shape = RoundedCornerShape(15.dp),backgroundColor = Color.Gray) {
+    Card(
+        onClick = onClick,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(45.dp),
+        shape = RoundedCornerShape(15.dp),
+        backgroundColor = Color.White
+    ) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
             Spacer(modifier = Modifier.width(10.dp))
-            Icon(imageVector = Icons.Filled.Search, contentDescription = "Search Icon",tint = Color.DarkGray)
+            Icon(
+                imageVector = Icons.Filled.Search,
+                contentDescription = "Search Icon",
+                tint = Color.DarkGray
+            )
             Spacer(modifier = Modifier.width(10.dp))
             Text(text = placeholder, color = Color.DarkGray, fontFamily = POPPINS)
         }

@@ -137,4 +137,6 @@ object Constants {
         "SMALL",
         "THUMBNAIL"
     )
+
+    const val DUMMY_IMAGE="https://image.shutterstock.com/image-photo/bowl-buddha-buckwheat-pumpkin-chicken-260nw-1259570605.jpg"
 }
