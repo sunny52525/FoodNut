@@ -46,17 +46,19 @@ class MainActivity : ComponentActivity() {
 
                 val foodItems by homeViewModel.foodItems.observeAsState()
                 val selectedItem = homeViewModel.selectedItem
+                val recipes by homeViewModel.recipes.observeAsState()
 
                 HomeScreen(
                     foodItems = foodItems,
                     onChipItemChanged = {
                         if (selectedItem!=it) {
                             homeViewModel.selectedItem = it
-                            homeViewModel.searchFood()
+                            homeViewModel.updateHomeScreen()
                         }
 
                     },
                     selectedItem = selectedItem,
+                    recipes = recipes
                 )
 
             }

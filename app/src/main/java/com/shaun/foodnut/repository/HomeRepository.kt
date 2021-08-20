@@ -2,6 +2,7 @@ package com.shaun.foodnut.repository
 
 import com.shaun.foodnut.models.ApiKeys
 import com.shaun.foodnut.models.foodparser.FoodParsed
+import com.shaun.foodnut.models.recipes.RecipeResponse
 import com.shaun.foodnut.network.ApiService
 
 class HomeRepository(
@@ -22,6 +23,14 @@ class HomeRepository(
             appId = apiKeys.foodAppId,
             appKey = apiKeys.foodApiKey,
             ingr = query
+        )
+    }
+
+    suspend fun getRecipes(query: String): RecipeResponse {
+        return apiService.getRecipe(
+            q = query,
+            appId = apiKeys.recipeAppId,
+            appKey = apiKeys.recipeApiKey
         )
     }
 }

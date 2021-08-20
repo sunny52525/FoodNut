@@ -71,6 +71,7 @@ interface ApiService {
         @Query("app_id") appId: String,
         @Query("app_key") appKey: String,
         @Query("ingr") ingrCount: String = "0+",
+        @Query("type") type:String="public",
 
         /**
          * [Constants.DIET]

@@ -1,5 +1,6 @@
 package com.shaun.foodnut.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.shaun.foodnut.models.foodparser.FoodParsed
+import com.shaun.foodnut.models.recipes.RecipeResponse
 import com.shaun.foodnut.network.Resource
 import com.shaun.foodnut.network.Status
 import com.shaun.foodnut.ui.components.*
@@ -39,7 +41,8 @@ import kotlinx.coroutines.launch
 fun HomeScreen(
     foodItems: Resource<FoodParsed>?,
     onChipItemChanged: (String) -> Unit,
-    selectedItem: String
+    selectedItem: String,
+    recipes: Resource<RecipeResponse>?
 ) {
 
 
@@ -142,7 +145,7 @@ fun HomeScreen(
                         }
 
                         items(3) {
-                            Loading(
+                            Shimmer(
                                 modifier = Modifier
                                     .height(382.dp)
                                     .width(200.dp),
@@ -172,20 +175,32 @@ fun HomeScreen(
             )
         }
 
-        repeat(10) {
-            item(it) {
-                BottomHomeItems(Modifier.padding(horizontal = SidePadding)) {
-                    FoodCardHorizontal(
-                        image = rememberImagePainter(data = Constants.DUMMY_IMAGE),
-                        title = "Crab Ramen",
-                        subtitle = "Spicy With garlic",
-                        isFavourite = it % 2 == 1,
-                        onClick = { /*TODO*/ }, onFavouriteClicked = {
+        item {
+            Shimmer(
+                modifier = Modifier
+                    .height(200.dp)
+                    .fillMaxWidth()
+                    .padding(horizontal = SidePadding),
+                isVisible = recipes?.status == Status.LOADING
+            )
+        }
+        items(recipes?.data?.hits ?: listOf()) { recipe ->
+            Log.d("TAG", "HomeScreen: $recipe")
+            BottomHomeItems(Modifier.padding(horizontal = SidePadding)) {
+                FoodCardHorizontal(
+                    image = rememberImagePainter(data = recipe.recipe.image),
+                    title = recipe.recipe.label,
+                    subtitle = recipe.recipe.source,
+                    isFavourite = false,
+                    onClick = { /*TODO*/ },
+                    onFavouriteClicked = {
 
-                        })
-                }
+                    },
+                    bottomText = "${recipe.recipe.calories.toInt()} Calories"
+                )
             }
         }
+
 
 
     }
@@ -197,5 +212,10 @@ fun HomeScreen(
 @Composable
 fun HomePreview() {
 
-    HomeScreen(foodItems = Resource(Status.IDLE, null, null), {}, "Pasta")
+    HomeScreen(
+        foodItems = Resource(Status.IDLE, null, null),
+        onChipItemChanged = {},
+        selectedItem = "Pasta",
+        recipes = null
+    )
 }

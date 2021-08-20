@@ -1,7 +1,12 @@
 package com.shaun.foodnut.models.recipes
 
+import com.shaun.foodnut.models.foodparser.Links
 import com.shaun.foodnut.models.nutrients.TotalNutrients
 
+data class Hits(
+    val _links: Links,
+    val recipe:RecipeObject,
+)
 data class RecipeObject(
     val uri: String,
     val label: String,
@@ -16,9 +21,9 @@ data class RecipeObject(
     val ingredients: ArrayList<IngredientObject>,
     val calories:Float,
     val totalWeight:Double,
-    val cuisineType:ArrayList<IngredientObject>,
-    val mealType:ArrayList<IngredientObject>,
-    val dishType:ArrayList<IngredientObject>,
+    val cuisineType:ArrayList<String>,
+    val mealType:ArrayList<String>,
+    val dishType:ArrayList<String>,
     val totalNutrients:TotalNutrients,
     val totalDaily:TotalNutrients,
     val digest:ArrayList<Digest>,

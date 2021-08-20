@@ -7,5 +7,5 @@ data class RecipeResponse(
     val to:Int,
     val count:Long,
     val _links:Links,
-    val hits:ArrayList<RecipeObject>,
+    val hits:ArrayList<Hits>,
 )

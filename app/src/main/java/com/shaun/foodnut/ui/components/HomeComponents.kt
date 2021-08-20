@@ -37,7 +37,7 @@ import com.shaun.foodnut.utils.Extensions.Companion.noRippleClickable
 @Composable
 fun SelectableChips(
     icon: Painter,
-    title: String,
+    title: String?,
     onSelectChange: () -> Unit,
     isSelected: Boolean,
 ) {
@@ -73,7 +73,7 @@ fun SelectableChips(
 
             Spacer(modifier = Modifier.width(10.dp))
             Text(
-                text = title,
+                text = title.toString(),
                 color = if (isSelected) Color.White else Color.Black,
 
                 )
@@ -137,10 +137,12 @@ fun FoodCardVertical(
 @Composable
 fun FoodCardHorizontal(
     image: ImagePainter?,
-    title: String,
-    subtitle: String,
+    title: String?,
+    subtitle: String?,
     isFavourite: Boolean,
     onClick: () -> Unit,
+    bottomText: String,
+
     onFavouriteClicked: () -> Unit
 ) {
 
@@ -166,11 +168,11 @@ fun FoodCardHorizontal(
 
             FoodTitleCard(
                 modifier = Modifier.fillMaxHeight(),
-                title = title,
-                subtitle = subtitle,
+                title = title.toString(),
+                subtitle = subtitle.toString(),
                 onFavouriteClicked = onFavouriteClicked,
                 isFavourite = isFavourite,
-                bottomText = "250KCAL"
+                bottomText = bottomText
             )
 
 
@@ -254,7 +256,8 @@ fun FoodCardPreview() {
             subtitle = "Onion and Chips",
             onClick = { /*TODO*/ },
 
-            isFavourite = true
+            isFavourite = true,
+            bottomText = "250 KCAL"
         ) {
 
         }
@@ -299,7 +302,7 @@ fun SelectableChipPreview() {
 
 
 @Composable
-fun Loading(modifier: Modifier, isVisible: Boolean) {
+fun Shimmer(modifier: Modifier, isVisible: Boolean) {
 
     if (isVisible)
         Card(
