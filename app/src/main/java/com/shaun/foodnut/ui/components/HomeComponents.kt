@@ -1,11 +1,11 @@
 package com.shaun.foodnut.ui.components
 
 import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -15,7 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -24,21 +24,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.material.placeholder
+import com.google.accompanist.placeholder.material.shimmer
 import com.shaun.foodnut.R
+import com.shaun.foodnut.ui.theme.Dimens.SidePadding
 import com.shaun.foodnut.ui.theme.FoodNutColors
 import com.shaun.foodnut.ui.theme.POPPINS
-import com.shaun.foodnut.ui.theme.SidePadding
+import com.shaun.foodnut.utils.Extensions.Companion.noRippleClickable
 
 @ExperimentalMaterialApi
 @Composable
 fun SelectableChips(
-    icon: ImageVector, title: String,
+    icon: Painter,
+    title: String,
     onSelectChange: () -> Unit,
     isSelected: Boolean,
-
-    ) {
-    var selected by remember { mutableStateOf(isSelected) }
-    val transition = updateTransition(selected, label = "")
+) {
+    val transition = updateTransition(isSelected, label = "")
     val borderColor by transition.animateColor(label = "") { select ->
         if (select) FoodNutColors.Green else Color.White
     }
@@ -46,10 +49,13 @@ fun SelectableChips(
     Card(
         shape = RoundedCornerShape(55), backgroundColor = borderColor, modifier = Modifier
             .height(50.dp)
-            .toggleable(value = isSelected, onValueChange = {
-                selected = selected.not()
-                onSelectChange()
-            })
+            .noRippleClickable(onSelectChange),
+        onClick = {
+
+            onSelectChange()
+        },
+        onClickLabel = title
+
     ) {
 
         Row(
@@ -59,14 +65,12 @@ fun SelectableChips(
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            Icon(
-                imageVector = icon,
-                contentDescription = "icon",
+            Image(
+                painter = icon, contentDescription = "icon",
                 modifier = Modifier
-
-                    .fillMaxHeight(),
-                tint = if (isSelected) Color.White else Color.Black
+                    .fillMaxHeight(0.6f),
             )
+
             Spacer(modifier = Modifier.width(10.dp))
             Text(
                 text = title,
@@ -84,11 +88,12 @@ fun SelectableChips(
 @ExperimentalMaterialApi
 @Composable
 fun FoodCardVertical(
-    image: String,
+    image: String?,
     title: String,
     subtitle: String,
     isFavourite: Boolean,
     onClick: () -> Unit,
+    bottomText: String,
     onFavouriteClicked: () -> Unit
 ) {
 
@@ -118,7 +123,8 @@ fun FoodCardVertical(
                 title = title,
                 subtitle = subtitle,
                 onFavouriteClicked = onFavouriteClicked,
-                isFavourite = isFavourite
+                isFavourite = isFavourite,
+                bottomText = bottomText
             )
 
 
@@ -163,7 +169,8 @@ fun FoodCardHorizontal(
                 title = title,
                 subtitle = subtitle,
                 onFavouriteClicked = onFavouriteClicked,
-                isFavourite = isFavourite
+                isFavourite = isFavourite,
+                bottomText = "250KCAL"
             )
 
 
@@ -179,7 +186,8 @@ private fun FoodTitleCard(
     title: String,
     subtitle: String,
     onFavouriteClicked: () -> Unit,
-    isFavourite: Boolean
+    isFavourite: Boolean,
+    bottomText: String
 ) {
     Column(
         modifier
@@ -203,7 +211,7 @@ private fun FoodTitleCard(
                 .fillMaxHeight()
         ) {
             Text(
-                text = "250 KCAL",
+                text = bottomText,
                 color = Color.Black,
                 fontFamily = POPPINS,
                 fontSize = 15.sp,
@@ -257,7 +265,8 @@ fun FoodCardPreview() {
             subtitle = "Onion and Chips",
             onClick = { /*TODO*/ },
 
-            isFavourite = true
+            isFavourite = true,
+            bottomText = "250KCAL"
         ) {
 
         }
@@ -275,7 +284,7 @@ fun SelectableChipPreview() {
         repeat(10) {
             item(it) {
                 SelectableChips(
-                    icon = Icons.Filled.Favorite,
+                    icon = painterResource(id = R.drawable.ic_bread),
                     title = "Veg",
                     onSelectChange = {
                         selected = !selected
@@ -288,6 +297,25 @@ fun SelectableChipPreview() {
     })
 }
 
+
+@Composable
+fun Loading(modifier: Modifier, isVisible: Boolean) {
+
+    if (isVisible)
+        Card(
+            modifier
+
+                .placeholder(
+                    true,
+                    highlight = PlaceholderHighlight.shimmer(),
+                    placeholderFadeTransitionSpec = { tween(10) }
+                )
+
+        ) {
+
+        }
+
+}
 
 @Composable
 fun TopArea(

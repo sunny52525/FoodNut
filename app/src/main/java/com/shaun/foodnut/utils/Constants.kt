@@ -1,5 +1,8 @@
 package com.shaun.foodnut.utils
 
+import com.shaun.foodnut.R
+import com.shaun.foodnut.models.ChipsItem
+
 object Constants {
     val HEALTH_LABELS = listOf(
         "alcohol-free",
@@ -138,5 +141,33 @@ object Constants {
         "THUMBNAIL"
     )
 
-    const val DUMMY_IMAGE="https://image.shutterstock.com/image-photo/bowl-buddha-buckwheat-pumpkin-chicken-260nw-1259570605.jpg"
+    const val DUMMY_IMAGE =
+        "https://image.shutterstock.com/image-photo/bowl-buddha-buckwheat-pumpkin-chicken-260nw-1259570605.jpg"
+
+    val CHIPS = listOf(
+        ChipsItem(
+            label = "Broccoli",
+            icon = R.drawable.ic_broccoli
+        ),
+        ChipsItem(
+            label = "Chicken",
+            icon = R.drawable.ic_chicken
+        ),
+        ChipsItem(
+            label = "IceCream",
+            icon = R.drawable.ic_icecream
+        ),
+        ChipsItem(
+            label = "Pasta",
+            icon = R.drawable.ic_pasta
+        ),
+        ChipsItem(
+            label = "Egg",
+            icon = R.drawable.ic_egg
+        ),
+        ChipsItem(
+            label = "Bread",
+            icon = R.drawable.ic_bread
+        )
+    )
 }

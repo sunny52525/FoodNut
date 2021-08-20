@@ -1,7 +1,6 @@
 package com.shaun.foodnut.ui.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,9 +22,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.shaun.foodnut.R
+import com.shaun.foodnut.ui.theme.Dimens.SidePadding
 import com.shaun.foodnut.ui.theme.FoodNutColors
 import com.shaun.foodnut.ui.theme.POPPINS
-import com.shaun.foodnut.ui.theme.SidePadding
+import com.shaun.foodnut.utils.Extensions.Companion.noRippleClickable
 
 @Composable
 fun CustomizedTopBar(
@@ -44,7 +44,7 @@ fun CustomizedTopBar(
                 contentDescription = "Menu",
 
                 modifier = Modifier
-                    .clickable(onClick = leftClick)
+                    .noRippleClickable(leftClick)
                     .padding(horizontal = SidePadding),
                 tint = Color.Black
             )
@@ -55,7 +55,8 @@ fun CustomizedTopBar(
                 imageVector = rightIcon,
                 contentDescription = "Menu",
                 modifier = Modifier
-                    .clickable(onClick = rightClick)
+                    .noRippleClickable(rightClick)
+
                     .padding(horizontal = SidePadding),
                 tint = Color.Black
             )

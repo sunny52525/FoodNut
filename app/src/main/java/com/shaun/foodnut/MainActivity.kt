@@ -1,13 +1,19 @@
 package com.shaun.foodnut
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.shaun.foodnut.ui.screens.HomeScreen
 import com.shaun.foodnut.ui.theme.FoodnutTheme
 import com.shaun.foodnut.viewmodels.HomeViewModel
@@ -21,15 +27,37 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
-        val viewmodel: HomeViewModel by viewModels()
+        val homeViewModel: HomeViewModel by viewModels()
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        viewmodel.key.observe(this, {
-            Log.d(TAG, "onCreate: $it")
-        })
+
         setContent {
+            val systemUiController = rememberSystemUiController()
+            val useDarkIcons = MaterialTheme.colors.isLight
+
+            SideEffect {
+                systemUiController.setSystemBarsColor(
+                    color = Color.Transparent,
+                    darkIcons = useDarkIcons
+                )
+            }
             FoodnutTheme(darkTheme = false) {
 
-                HomeScreen()
+
+                val foodItems by homeViewModel.foodItems.observeAsState()
+                val selectedItem = homeViewModel.selectedItem
+
+                HomeScreen(
+                    foodItems = foodItems,
+                    onChipItemChanged = {
+                        if (selectedItem!=it) {
+                            homeViewModel.selectedItem = it
+                            homeViewModel.searchFood()
+                        }
+
+                    },
+                    selectedItem = selectedItem,
+                )
 
             }
         }

@@ -8,7 +8,7 @@ import com.shaun.foodnut.models.requestobject.IngredientsRequestObject
 import com.shaun.foodnut.utils.Constants
 import retrofit2.http.*
 
-interface Api {
+interface ApiService {
 
     @GET("api/nutrition-data/")
     suspend fun getNutritionData(
@@ -22,6 +22,7 @@ interface Api {
         @Query("app_id") appId: String,
         @Query("app_key") appKey: String,
         @Query("ingr") ingr: String,
+        @Query("nutrition-type") nutrition_type: String = "cooking",
         /**
          * [Constants.HEALTH_LABELS]
          */

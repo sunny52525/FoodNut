@@ -6,10 +6,12 @@ data class Food(
     val categoryLabel: String,
     val foodContentsLabel: String,
     val foodId: String,
-    val image: String,
+    val image: String?,
     val label: String,
     val nutrients: NutrientsItems,
     val servingSizes: List<ServingSize>,
-    val servingsPerContainer: Int,
+    val servingsPerContainer: Number,
     val healthLabels:ArrayList<String>?,
+
+
 )
