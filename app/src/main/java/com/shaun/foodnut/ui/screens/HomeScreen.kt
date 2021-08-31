@@ -1,5 +1,7 @@
 package com.shaun.foodnut.ui.screens
 
+import android.os.Bundle
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -21,6 +23,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.shaun.foodnut.models.foodparser.FoodParsed
@@ -28,6 +32,7 @@ import com.shaun.foodnut.models.recipes.RecipeResponse
 import com.shaun.foodnut.network.Resource
 import com.shaun.foodnut.network.Status
 import com.shaun.foodnut.ui.components.*
+import com.shaun.foodnut.ui.navigation.Routes
 import com.shaun.foodnut.ui.theme.Dimens.SidePadding
 import com.shaun.foodnut.ui.theme.FoodNutColors
 import com.shaun.foodnut.ui.theme.POPPINS
@@ -45,7 +50,8 @@ fun HomeScreen(
     onChipItemChanged: (String) -> Unit,
     selectedItem: String,
     onDrawerClicked: () -> Unit,
-    recipes: Resource<RecipeResponse>?
+    recipes: Resource<RecipeResponse>?,
+    navController: NavHostController
 ) {
 
 
@@ -57,7 +63,7 @@ fun HomeScreen(
     LazyColumn(
         modifier
             .fillMaxSize()
-            .background(FoodNutColors.GenericBackground),
+            .background(FoodNutColors.Background),
         verticalArrangement = Arrangement.spacedBy(10.dp),
 
 
@@ -193,8 +199,12 @@ fun HomeScreen(
                     title = recipe.recipe.label,
                     subtitle = recipe.recipe.source,
                     isFavourite = false,
-                    onClick ={
-
+                    onClick = {
+                        Log.d("TAG", "HomeScreen: ${recipe.recipe} ")
+                        navController.currentBackStackEntry?.arguments = Bundle().apply {
+                            putParcelable("recipe", recipe.recipe)
+                        }
+                        navController.navigate(Routes.RecipeDetail.route)
                     },
                     onFavouriteClicked = {
 
@@ -220,7 +230,8 @@ fun HomePreview() {
         foodItems = Resource(Status.IDLE, null, null),
         onChipItemChanged = {},
         selectedItem = "Pasta",
+        onDrawerClicked = {},
         recipes = null,
-        onDrawerClicked = {}
+        navController = rememberNavController()
     )
 }

@@ -8,6 +8,7 @@ object Dimens {
     val grid_0_25 = 2.dp
     val grid_0_5 = 4.dp
     val grid_1 = 8.dp
+    val grid_1_25=10.dp
     val grid_1_5 = 12.dp
     val grid_2 = 16.dp
     val grid_2_5 = 20.dp

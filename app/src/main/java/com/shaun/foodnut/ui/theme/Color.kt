@@ -9,5 +9,5 @@ val Teal200 = Color(0xFF03DAC5)
 
 object FoodNutColors{
     val Green=Color(0xFF28AD60)
-    val GenericBackground=Color(0xFFF9F9F9)
+    val Background=Color(0xFFF9F9F9)
 }

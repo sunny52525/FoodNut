@@ -8,6 +8,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Camera
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -83,7 +84,7 @@ class MainActivity : ComponentActivity() {
                             onClick = { /*TODO*/ },
                             backgroundColor = FoodNutColors.Green
                         ) {
-                            Icon(imageVector = Icons.Filled.Add, contentDescription = "Add")
+                            Icon(imageVector = Icons.Filled.Camera, contentDescription = "Add",tint = Color.White)
 
 
                         }

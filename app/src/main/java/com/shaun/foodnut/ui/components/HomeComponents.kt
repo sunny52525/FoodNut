@@ -349,3 +349,13 @@ fun BottomHomeItems(
         content()
     }
 }
+
+@Composable
+fun Container(
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    Column(modifier.fillMaxWidth()) {
+        content()
+    }
+}

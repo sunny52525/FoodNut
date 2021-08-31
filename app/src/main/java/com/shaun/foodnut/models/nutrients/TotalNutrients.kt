@@ -1,7 +1,10 @@
 package com.shaun.foodnut.models.nutrients
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class TotalNutrients(
     val ENERC_KCAL: NutrientDetail?,
     val FAT: NutrientDetail?,
@@ -32,4 +35,4 @@ data class TotalNutrients(
     val WATER: NutrientDetail?,
 
 
-    )
+    ) : Parcelable

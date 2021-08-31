@@ -4,6 +4,7 @@ import com.shaun.foodnut.models.ApiKeys
 import com.shaun.foodnut.models.foodparser.FoodParsed
 import com.shaun.foodnut.models.recipes.RecipeResponse
 import com.shaun.foodnut.network.ApiService
+import com.shaun.foodnut.utils.Constants
 
 class HomeRepository(
     private val apiKeys: ApiKeys,
@@ -30,7 +31,13 @@ class HomeRepository(
         return apiService.getRecipe(
             q = query,
             appId = apiKeys.recipeAppId,
-            appKey = apiKeys.recipeApiKey
+            appKey = apiKeys.recipeApiKey,
+            imageSize = HashMap<String, String>().apply {
+                put(
+                    "imageSize",
+                    Constants.IMAGE_SIZE[2]
+                )
+            }
         )
     }
 }

@@ -49,7 +49,7 @@ fun CustomizedTopBar(
                 tint = Color.Black
             )
         },
-        backgroundColor = FoodNutColors.GenericBackground,
+        backgroundColor = FoodNutColors.Background,
         actions = {
             Icon(
                 imageVector = rightIcon,
@@ -107,7 +107,7 @@ fun NutritionCountCard(name: String = "Calories", weight: String = "250", unit: 
 
             Column {
                 Text(text = name, color = Color.Black, fontFamily = POPPINS)
-                Text(text = weight, color = Color.Gray, fontFamily = POPPINS)
+                Text(text = unit, color = Color.Gray, fontFamily = POPPINS)
             }
         }
 
@@ -133,7 +133,12 @@ fun IngredientCard(imageVector: Painter?, title: String, weight: String) {
                 contentScale = ContentScale.Crop
             )
         }
-        Text(text = title, color = Color.Black, fontFamily = POPPINS)
+        Text(
+            text = title,
+            color = Color.Black,
+            fontFamily = POPPINS,
+            fontWeight = FontWeight.SemiBold
+        )
         Text(text = weight, color = Color.Gray, fontFamily = POPPINS)
 
     }
