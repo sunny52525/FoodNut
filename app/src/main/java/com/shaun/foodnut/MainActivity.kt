@@ -5,35 +5,46 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.shaun.foodnut.ui.screens.HomeScreen
+import com.shaun.foodnut.ui.components.Drawer
+import com.shaun.foodnut.ui.components.NavigationGraph
+import com.shaun.foodnut.ui.theme.FoodNutColors
 import com.shaun.foodnut.ui.theme.FoodnutTheme
+import com.shaun.foodnut.utils.Constants
 import com.shaun.foodnut.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @ExperimentalFoundationApi
-    @ExperimentalMaterialApi
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         val homeViewModel: HomeViewModel by viewModels()
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
+        val selectedRoute by homeViewModel.selectedRoute
 
         setContent {
             val systemUiController = rememberSystemUiController()
             val useDarkIcons = MaterialTheme.colors.isLight
+
+            val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+            val coroutineScope = rememberCoroutineScope()
+
 
             SideEffect {
                 systemUiController.setSystemBarsColor(
@@ -41,25 +52,45 @@ class MainActivity : ComponentActivity() {
                     darkIcons = useDarkIcons
                 )
             }
+
+
             FoodnutTheme(darkTheme = false) {
 
 
-                val foodItems by homeViewModel.foodItems.observeAsState()
-                val selectedItem = homeViewModel.selectedItem
-                val recipes by homeViewModel.recipes.observeAsState()
-
-                HomeScreen(
-                    foodItems = foodItems,
-                    onChipItemChanged = {
-                        if (selectedItem!=it) {
-                            homeViewModel.selectedItem = it
-                            homeViewModel.updateHomeScreen()
-                        }
-
+                Scaffold(
+                    content = {
+                        NavigationGraph(
+                            homeViewModel = homeViewModel,
+                            paddingValues = it,
+                            onDrawerClicked = {
+                                coroutineScope.launch {
+                                    scaffoldState.drawerState.open()
+                                }
+                            }
+                        )
                     },
-                    selectedItem = selectedItem,
-                    recipes = recipes
+                    drawerContent = {
+                        Drawer(
+                            items = Constants.DRAWER_ITEMS,
+                            selectedRoute = selectedRoute,
+                            onClick = {
+
+                            })
+                    },
+                    scaffoldState = scaffoldState,
+                    floatingActionButton = {
+                        FloatingActionButton(
+                            onClick = { /*TODO*/ },
+                            backgroundColor = FoodNutColors.Green
+                        ) {
+                            Icon(imageVector = Icons.Filled.Add, contentDescription = "Add")
+
+
+                        }
+                    }
+
                 )
+
 
             }
         }

@@ -1,6 +1,7 @@
 package com.shaun.foodnut.viewmodels
 
 import android.util.Log
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -27,6 +28,13 @@ class HomeViewModel @Inject constructor(
 
     var foodItems = MutableLiveData(Resource<FoodParsed>(Status.IDLE, null, null))
     var recipes = MutableLiveData(Resource<RecipeResponse>(Status.IDLE, null, null))
+
+    private val _selectedRoute = mutableStateOf<String>("Home")
+    val selectedRoute: State<String> = _selectedRoute
+
+    fun setSelectedRoute(route: String) {
+        _selectedRoute.value = route
+    }
 
     init {
         updateHomeScreen()

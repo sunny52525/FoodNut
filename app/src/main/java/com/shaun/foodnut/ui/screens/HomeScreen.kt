@@ -1,6 +1,5 @@
 package com.shaun.foodnut.ui.screens
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -22,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.shaun.foodnut.models.foodparser.FoodParsed
 import com.shaun.foodnut.models.recipes.RecipeResponse
@@ -35,13 +35,16 @@ import com.shaun.foodnut.utils.Constants
 import kotlinx.coroutines.launch
 
 
+@ExperimentalCoilApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
 fun HomeScreen(
+    modifier: Modifier = Modifier,
     foodItems: Resource<FoodParsed>?,
     onChipItemChanged: (String) -> Unit,
     selectedItem: String,
+    onDrawerClicked: () -> Unit,
     recipes: Resource<RecipeResponse>?
 ) {
 
@@ -52,7 +55,7 @@ fun HomeScreen(
 
 
     LazyColumn(
-        Modifier
+        modifier
             .fillMaxSize()
             .background(FoodNutColors.GenericBackground),
         verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -64,8 +67,7 @@ fun HomeScreen(
             CustomizedTopBar(
                 leftIcon = Icons.Filled.Sort,
                 rightIcon = Icons.Filled.AccountCircle,
-                leftClick = {
-                }, rightClick = {
+                leftClick = onDrawerClicked, rightClick = {
 
                 })
         }
@@ -185,18 +187,19 @@ fun HomeScreen(
             )
         }
         items(recipes?.data?.hits ?: listOf()) { recipe ->
-            Log.d("TAG", "HomeScreen: $recipe")
             BottomHomeItems(Modifier.padding(horizontal = SidePadding)) {
                 FoodCardHorizontal(
                     image = rememberImagePainter(data = recipe.recipe.image),
                     title = recipe.recipe.label,
                     subtitle = recipe.recipe.source,
                     isFavourite = false,
-                    onClick = { /*TODO*/ },
+                    onClick ={
+
+                    },
                     onFavouriteClicked = {
 
                     },
-                    bottomText = "${recipe.recipe.calories.toInt()} Calories"
+                    bottomText = "${recipe.recipe.totalNutrients.ENERC_KCAL?.quantity?.toInt()} KCAL"
                 )
             }
         }
@@ -206,6 +209,7 @@ fun HomeScreen(
     }
 }
 
+@ExperimentalCoilApi
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Preview
@@ -216,6 +220,7 @@ fun HomePreview() {
         foodItems = Resource(Status.IDLE, null, null),
         onChipItemChanged = {},
         selectedItem = "Pasta",
-        recipes = null
+        recipes = null,
+        onDrawerClicked = {}
     )
 }

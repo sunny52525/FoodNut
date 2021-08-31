@@ -1,7 +1,10 @@
 package com.shaun.foodnut.utils
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import com.shaun.foodnut.R
 import com.shaun.foodnut.models.ChipsItem
+import com.shaun.foodnut.models.IconAndLabel
 
 object Constants {
     val HEALTH_LABELS = listOf(
@@ -168,6 +171,37 @@ object Constants {
         ChipsItem(
             label = "Bread",
             icon = R.drawable.ic_bread
+        )
+    )
+
+    val DRAWER_ITEMS = listOf(
+        IconAndLabel(
+            label = "Home",
+            icon = Icons.Filled.Home
+        ),
+        IconAndLabel(
+            label = "Favourites",
+            icon = Icons.Filled.Favorite
+        ),
+        IconAndLabel(
+            label = "Search",
+            icon = Icons.Filled.Search
+        ),
+        IconAndLabel(
+            label = "Add Recipe",
+            icon = Icons.Filled.Add
+        ),
+        IconAndLabel(
+            label = "Recipe Community",
+            icon = Icons.Filled.People
+        ),
+        IconAndLabel(
+            label = "Profile",
+            icon = Icons.Filled.AccountCircle
+        ),
+        IconAndLabel(
+            label = "Settings",
+            icon = Icons.Filled.Settings
         )
     )
 }
