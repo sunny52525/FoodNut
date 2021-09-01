@@ -1,6 +1,7 @@
 package com.shaun.foodnut.models.recipes
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import com.shaun.foodnut.models.foodparser.Links
 import com.shaun.foodnut.models.nutrients.TotalNutrients
 import kotlinx.parcelize.Parcelize
@@ -18,11 +19,12 @@ data class RecipeObject(
     val image: String,
     val source: String,
     val shareAs: String,
-    val yield: String,
+//    val yield: String,
     val dietLabels: ArrayList<String>,
     val healthLabels: ArrayList<String>,
-    val caution: ArrayList<String>?,
-    val ingredientLines: ArrayList<String>?,
+//    val caution: ArrayList<String>?,
+//    val ingredientLines: ArrayList<String>?,
+    @SerializedName("ingredients")
     val ingredients: ArrayList<IngredientObject>?,
     val calories: Float,
     val totalWeight: Double,
@@ -30,8 +32,8 @@ data class RecipeObject(
     val mealType: ArrayList<String>,
     val dishType: ArrayList<String>,
     val totalNutrients: TotalNutrients,
-    val totalDaily: TotalNutrients,
-    val digest: ArrayList<Digest>?,
+//    val totalDaily: TotalNutrients,
+//    val digest: ArrayList<Digest>?,
 ) : Parcelable
 
 @Parcelize
@@ -43,5 +45,6 @@ data class IngredientObject(
     val image: String,
     val food: String?,
     val quantity: String?,
+    @SerializedName("measure")
     val measure: String?,
 ) : Parcelable

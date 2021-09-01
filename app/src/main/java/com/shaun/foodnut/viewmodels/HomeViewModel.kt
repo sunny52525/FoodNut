@@ -72,7 +72,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun updateHomeScreen(){
-        searchFood()
+//        searchFood()
         searchRecipes()
     }
 
