@@ -359,3 +359,11 @@ fun Container(
         content()
     }
 }
+
+
+@Composable
+fun ColumnWrapper(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
+    Column (modifier.fillMaxWidth()){
+        content()
+    }
+}

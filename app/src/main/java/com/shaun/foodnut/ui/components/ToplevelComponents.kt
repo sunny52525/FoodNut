@@ -149,3 +149,4 @@ fun IngredientCard(imageVector: Painter?, title: String, weight: String) {
 fun IngredientPreview() {
     IngredientCard(imageVector = null, title = "Avocado", weight = "250gm")
 }
+

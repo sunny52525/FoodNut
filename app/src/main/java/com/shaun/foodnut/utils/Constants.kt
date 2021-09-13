@@ -204,4 +204,32 @@ object Constants {
             icon = Icons.Filled.Settings
         )
     )
+
+    val ProfileItems = listOf(
+        IconAndLabel(
+            label = "Edit profile",
+            icon = Icons.Filled.Edit
+        ),
+        IconAndLabel(
+            label = "Change Password",
+            icon = Icons.Filled.Password
+        ),
+        IconAndLabel(
+            label = "Block List",
+            icon = Icons.Filled.Block
+        ),
+        IconAndLabel(
+            label = "Feedback",
+            icon = Icons.Filled.Feedback
+        ),
+        IconAndLabel(
+            label = "Favourites",
+            icon = Icons.Filled.Favorite
+        ),
+        IconAndLabel(
+            label = "Logout",
+            icon = Icons.Filled.Logout
+        )
+
+    )
 }

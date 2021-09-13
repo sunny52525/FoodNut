@@ -70,7 +70,7 @@ interface ApiService {
         @Query("q") q: String,
         @Query("app_id") appId: String,
         @Query("app_key") appKey: String,
-        @Query("ingr") ingrCount: String = "0+",
+//        @Query("ingr") ingrCount: String = "0+",
         @Query("type") type:String="public",
 
         /**
@@ -98,7 +98,7 @@ interface ApiService {
          */
         @QueryMap dishType: HashMap<String, String> = HashMap(),
 
-        @Query("calories") calories: String = "0+",
+//        @Query("calories") calories: String = "0+",
 
         /**
          * [Constants.IMAGE_SIZE]
