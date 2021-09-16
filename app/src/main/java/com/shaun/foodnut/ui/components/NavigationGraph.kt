@@ -1,17 +1,16 @@
 package com.shaun.foodnut.ui.components
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -22,8 +21,11 @@ import com.shaun.foodnut.ui.screens.HomeScreen
 import com.shaun.foodnut.ui.screens.ProfileScreen
 import com.shaun.foodnut.ui.screens.RecipeDetailScreen
 import com.shaun.foodnut.ui.screens.SearchScreen
+import com.shaun.foodnut.ui.theme.Dimens.grid_2_5
 import com.shaun.foodnut.viewmodels.HomeViewModel
+import com.shaun.foodnut.viewmodels.SearchViewModel
 
+@ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
@@ -35,7 +37,11 @@ fun NavigationGraph(
     onDrawerClicked: () -> Unit,
 ) {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Routes.Profile.route) {
+    NavHost(
+        navController = navController,
+        startDestination = Routes.Home.route,
+        modifier = Modifier.padding(top = grid_2_5)
+    ) {
 
 
         composable(Routes.Home.route) {
@@ -65,17 +71,16 @@ fun NavigationGraph(
 
             if (recipe != null) {
                 RecipeDetailScreen(recipe = recipe)
-            } else {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Header(text = "Error ")
-                }
             }
         }
+
         composable(Routes.SearchScreen.route) {
-            SearchScreen(Modifier.padding(paddingValues = paddingValues))
+            val searchViewModel = hiltViewModel<SearchViewModel>()
+
+            SearchScreen(
+                Modifier.padding(paddingValues = paddingValues),
+                viewModel = searchViewModel
+            )
         }
         composable(Routes.Profile.route) {
             ProfileScreen()

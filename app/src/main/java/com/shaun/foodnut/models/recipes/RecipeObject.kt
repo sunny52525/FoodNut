@@ -42,9 +42,9 @@ data class IngredientObject(
     val weight: Float,
     val foodCategory: String,
     val foodId: String,
-    val image: String,
+    val image: String?,
     val food: String?,
-    val quantity: String?,
+    val quantity: Number?,
     @SerializedName("measure")
     val measure: String?,
 ) : Parcelable

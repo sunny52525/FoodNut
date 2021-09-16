@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import com.google.accompanist.placeholder.PlaceholderHighlight
@@ -35,11 +36,13 @@ import com.shaun.foodnut.utils.Extensions.Companion.noRippleClickable
 
 @ExperimentalMaterialApi
 @Composable
-fun SelectableChips(
+fun     SelectableChips(
+    modifier: Modifier=Modifier,
     icon: Painter,
     title: String?,
     onSelectChange: () -> Unit,
     isSelected: Boolean,
+    showIcon: Boolean= true
 ) {
     val transition = updateTransition(isSelected, label = "")
     val borderColor by transition.animateColor(label = "") { select ->
@@ -59,7 +62,7 @@ fun SelectableChips(
     ) {
 
         Row(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .padding(start = 5.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -72,6 +75,7 @@ fun SelectableChips(
             )
 
             Spacer(modifier = Modifier.width(10.dp))
+            if (showIcon)
             Text(
                 text = title.toString(),
                 color = if (isSelected) Color.White else Color.Black,
@@ -85,6 +89,7 @@ fun SelectableChips(
 }
 
 
+@ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
 fun FoodCardVertical(

@@ -232,4 +232,6 @@ object Constants {
         )
 
     )
+
+    val category = listOf("Recipe", "Food", "Nutrients")
 }

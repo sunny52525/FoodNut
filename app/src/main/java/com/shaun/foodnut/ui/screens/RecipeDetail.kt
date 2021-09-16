@@ -6,7 +6,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Card
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -14,16 +16,19 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.East
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.shaun.foodnut.models.recipes.IngredientObject
 import com.shaun.foodnut.models.recipes.RecipeObject
 import com.shaun.foodnut.ui.components.*
 import com.shaun.foodnut.ui.theme.Dimens.grid_0_25
@@ -39,12 +44,24 @@ import kotlin.math.roundToInt
 @ExperimentalCoilApi
 @Composable
 fun RecipeDetailScreen(recipe: RecipeObject) {
+    var ingredientInDialog: IngredientObject? by remember {
+        mutableStateOf(null)
+    }
+    var dialogShown by remember {
+        mutableStateOf(false)
+    }
+    if (dialogShown) {
+        IngredientDialog(ingredient = ingredientInDialog) {
+            dialogShown = dialogShown.not()
+        }
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(FoodNutColors.Background)
             .verticalScroll(rememberScrollState()),
     ) {
+
         CustomizedTopBar(
             leftIcon = Icons.Filled.ArrowBackIosNew,
             rightIcon = Icons.Filled.Favorite,
@@ -88,38 +105,36 @@ fun RecipeDetailScreen(recipe: RecipeObject) {
             Modifier
                 .fillMaxWidth()
                 .padding(start = grid_2)
+                .height(
+                    300.dp
+                )
         ) {
-            Column(Modifier.weight(1f)) {
-                Header(text = "Nutrition", padding = 0.dp)
 
-
-                NutritionCountCard(
-                    name = "Calories",
-                    weight = recipe.calories.roundToInt().toString(),
-                    unit = ""
-                )
-                Spacer(modifier = Modifier.height(grid_1_25))
-                NutritionCountCard(
-                    name = recipe.totalNutrients.ENERC_KCAL?.label.toString(),
-                    weight = recipe.totalNutrients.ENERC_KCAL?.quantity?.roundToInt().toString(),
-                    unit = recipe.totalNutrients.ENERC_KCAL?.unit.toString()
-                )
-                Spacer(modifier = Modifier.height(grid_1_25))
-                NutritionCountCard(
-                    name = recipe.totalNutrients.FAT?.label.toString(),
-                    weight = recipe.totalNutrients.FAT?.quantity?.roundToInt().toString(),
-                    unit = recipe.totalNutrients.FAT?.unit.toString()
-                )
-
+            Column {
+                NutritionDetail(recipe)
             }
-            Column(Modifier.weight(1f)) {
-                Image(
-                    painter = rememberImagePainter(data = ""),
-                    contentDescription = "",
-                    modifier = Modifier.fillMaxSize()
-                )
+
+            Spacer(modifier = Modifier.width(grid_1))
+
+            BoxWithConstraints(Modifier.fillMaxSize().padding(end = grid_1_25), contentAlignment = CenterEnd) {
+                val width = maxWidth
+                Card(
+                    shape = CircleShape, modifier = Modifier
+                        .size(width)
+                ) {
+                    Image(
+                        painter = rememberImagePainter(data = recipe.image),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
+                }
             }
+
+
         }
+
 
 
 
@@ -129,7 +144,7 @@ fun RecipeDetailScreen(recipe: RecipeObject) {
                 Modifier.fillMaxWidth(), contentPadding = PaddingValues(start = grid_2),
                 horizontalArrangement = Arrangement.spacedBy(grid_1_25)
             ) {
-                recipe.ingredients?.forEachIndexed { index, ingredient ->
+                recipe.ingredients?.forEachIndexed { _, ingredient ->
                     item {
                         Log.d(
                             "Ingredient",
@@ -137,8 +152,13 @@ fun RecipeDetailScreen(recipe: RecipeObject) {
                         )
                         IngredientCard(
                             imageVector = rememberImagePainter(ingredient.image),
-                            title = ingredient.foodCategory,
-                            weight = "${ingredient.weight.roundToInt()} ${ingredient.measure}"
+                            title = ingredient.food.toString(),
+                            weight = "${ingredient.weight.roundToInt()} ${ingredient.measure}",
+                            onClick = {
+                                ingredientInDialog = ingredient
+                                dialogShown = true
+                                Log.d("Recipe Object", "RecipeDetailScreen: $ingredientInDialog ")
+                            }
                         )
                     }
                 }
