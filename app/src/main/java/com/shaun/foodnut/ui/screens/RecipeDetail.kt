@@ -1,33 +1,35 @@
 package com.shaun.foodnut.ui.screens
 
 import android.util.Log
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement.Absolute.SpaceEvenly
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material.icons.filled.East
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.shaun.foodnut.models.nutrients.TotalNutrients
 import com.shaun.foodnut.models.recipes.IngredientObject
 import com.shaun.foodnut.models.recipes.RecipeObject
 import com.shaun.foodnut.ui.components.*
@@ -38,6 +40,8 @@ import com.shaun.foodnut.ui.theme.Dimens.grid_2
 import com.shaun.foodnut.ui.theme.Dimens.grid_3
 import com.shaun.foodnut.ui.theme.FoodNutColors
 import com.shaun.foodnut.ui.theme.POPPINS
+import com.shaun.foodnut.utils.Extensions.Companion.noRippleClickable
+import com.shaun.foodnut.utils.Extensions.Companion.toPairArray
 import kotlin.math.roundToInt
 
 
@@ -54,6 +58,10 @@ fun RecipeDetailScreen(recipe: RecipeObject) {
         IngredientDialog(ingredient = ingredientInDialog) {
             dialogShown = dialogShown.not()
         }
+    }
+
+    var fullHealthLabelShown by remember {
+        mutableStateOf(false)
     }
     Column(
         modifier = Modifier
@@ -77,18 +85,31 @@ fun RecipeDetailScreen(recipe: RecipeObject) {
             modifier = Modifier.padding(top = grid_1, start = grid_2)
         )
         Text(
-            text = recipe.healthLabels.joinToString(
-                separator = ",",
-                limit = 3,
-
-                ) {
-                it
+            text = buildAnnotatedString {
+                append(
+                    recipe.healthLabels
+                        .joinToString(
+                            separator = ",",
+                            limit = if (fullHealthLabelShown) -1 else 3,
+                        ) {
+                            it
+                        })
+                if (fullHealthLabelShown.not()) {
+                    withStyle(style = SpanStyle(color = Color.Black)) {
+                        append("view more")
+                    }
+                }
             },
             color = Color.Gray,
             fontSize = 15.sp,
             fontFamily = POPPINS,
             fontWeight = FontWeight.Normal,
-            modifier = Modifier.padding(vertical = grid_0_25, horizontal = grid_2),
+            modifier = Modifier
+                .padding(vertical = grid_0_25, horizontal = grid_2)
+                .animateContentSize()
+                .noRippleClickable {
+                    fullHealthLabelShown = fullHealthLabelShown.not()
+                },
             fontStyle = FontStyle.Italic
         )
         Text(
@@ -116,7 +137,11 @@ fun RecipeDetailScreen(recipe: RecipeObject) {
 
             Spacer(modifier = Modifier.width(grid_1))
 
-            BoxWithConstraints(Modifier.fillMaxSize().padding(end = grid_1_25), contentAlignment = CenterEnd) {
+            BoxWithConstraints(
+                Modifier
+                    .fillMaxSize()
+                    .padding(end = grid_1_25), contentAlignment = CenterEnd
+            ) {
                 val width = maxWidth
                 Card(
                     shape = CircleShape, modifier = Modifier
@@ -167,24 +192,43 @@ fun RecipeDetailScreen(recipe: RecipeObject) {
         }
 
         Spacer(modifier = Modifier.height(grid_3))
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = "View Complete Nutrition Details",
-                fontFamily = POPPINS,
-                fontWeight = FontWeight.Bold,
-                fontStyle = FontStyle.Italic,
-                fontSize = 12.sp
-            )
-            Spacer(modifier = Modifier.height(grid_2))
-            FloatingActionButton(onClick = { /*TODO*/ }) {
-                Icon(imageVector = Icons.Filled.East, contentDescription = "")
+
+        ColumnWrapper(modifier = Modifier.padding(grid_1)) {
+
+            DetailsNutrientView(title = "Total Nutrients", recipe.totalNutrients)
+            recipe.totalDaily?.let {
+
+                DetailsNutrientView(title = "Total Daily", recipe.totalDaily)
             }
         }
+    }
+}
 
+@Composable
+fun DetailsNutrientView(title: String, recipe: TotalNutrients) {
+    Header(text = title)
+    recipe.toArray().toPairArray {
+
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = SpaceEvenly) {
+            ColumnWrapper(Modifier.weight(1f)) {
+                NutritionCountCard(
+                    name = it.first?.label.toString(),
+                    weight = it.first?.quantity?.roundToInt().toString(),
+                    unit = it.first?.unit.toString()
+                )
+            }
+            if (it.second != null) {
+                ColumnWrapper(Modifier.weight(1f)) {
+                    NutritionCountCard(
+                        name = it.second?.label.toString(),
+                        weight = it.second?.quantity?.roundToInt().toString(),
+                        unit = it.second?.unit.toString()
+                    )
+                }
+            }
+
+        }
+        Spacer(modifier = Modifier.height(grid_1))
 
     }
 }

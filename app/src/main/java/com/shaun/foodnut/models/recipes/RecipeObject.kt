@@ -32,7 +32,7 @@ data class RecipeObject(
     val mealType: ArrayList<String>,
     val dishType: ArrayList<String>,
     val totalNutrients: TotalNutrients,
-//    val totalDaily: TotalNutrients,
+    val totalDaily: TotalNutrients?,
 //    val digest: ArrayList<Digest>?,
 ) : Parcelable
 

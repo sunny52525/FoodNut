@@ -1,7 +1,6 @@
 package com.shaun.foodnut.models.nutrients
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -33,6 +32,24 @@ data class TotalNutrients(
     val TOCPHA: NutrientDetail?,
     val VITK1: NutrientDetail?,
     val WATER: NutrientDetail?,
-
-
-    ) : Parcelable
+) : Parcelable {
+    fun toArray(): ArrayList<NutrientDetail?> {
+        return arrayListOf(
+            ENERC_KCAL,
+            FAT,
+            FASAT,
+            FAMS,
+            FAPU,
+            CHOCDF,
+            FIBTG,
+            SUGAR,
+            PROCNT,
+            NA,
+            CA,
+            MG,
+            K,
+            FE, ZN, P, VITA_RAE, VITC,
+            THIA, RIBF, NIA, VITB6A, FOLDFE, FOLFD, TOCPHA, VITK1, WATER
+        )
+    }
+}

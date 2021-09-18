@@ -65,7 +65,7 @@ interface ApiService {
 
         ): FoodParsed
 
-    @GET("/api/recipes/v2?field=uri&field=label&field=image&field=source&field=url&field=shareAs&field=dietLabels&field=healthLabels&field=ingredients&field=calories&field=totalWeight&field=cuisineType&field=mealType&field=dishType&field=totalNutrients")
+    @GET("/api/recipes/v2?field=uri&field=label&field=image&field=source&field=url&field=shareAs&field=dietLabels&field=healthLabels&field=ingredients&field=calories&field=totalWeight&field=cuisineType&field=mealType&field=dishType&field=totalNutrients&field=totalDaily")
     suspend fun getRecipe(
         @Query("q") q: String,
         @Query("app_id") appId: String,
