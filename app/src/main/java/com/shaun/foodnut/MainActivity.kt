@@ -1,6 +1,7 @@
 package com.shaun.foodnut
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -16,13 +17,16 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.shaun.foodnut.ui.components.Drawer
 import com.shaun.foodnut.ui.components.NavigationGraph
+import com.shaun.foodnut.ui.navigation.RouteMap
 import com.shaun.foodnut.ui.theme.FoodNutColors
 import com.shaun.foodnut.ui.theme.FoodnutTheme
 import com.shaun.foodnut.utils.Constants
+import com.shaun.foodnut.utils.Extensions.Companion.showToast
 import com.shaun.foodnut.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -32,10 +36,10 @@ import kotlinx.coroutines.launch
 @ExperimentalCoilApi
 @AndroidEntryPoint
 @ExperimentalComposeUiApi
+@ExperimentalAnimationApi
 class MainActivity : ComponentActivity() {
 
 
-    @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
@@ -50,6 +54,7 @@ class MainActivity : ComponentActivity() {
 
             val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
             val coroutineScope = rememberCoroutineScope()
+            val navController = rememberNavController()
 
 
             SideEffect {
@@ -72,7 +77,8 @@ class MainActivity : ComponentActivity() {
                                 coroutineScope.launch {
                                     scaffoldState.drawerState.open()
                                 }
-                            }
+                            },
+                            navController = navController
                         )
                     },
                     drawerContent = {
@@ -80,13 +86,23 @@ class MainActivity : ComponentActivity() {
                             items = Constants.DRAWER_ITEMS,
                             selectedRoute = selectedRoute,
                             onClick = {
-
+                                try {
+                                    navController.navigate(RouteMap.getRoute(it))
+                                    homeViewModel.setSelectedRoute(it)
+                                    coroutineScope.launch {
+                                        scaffoldState.drawerState.close()
+                                    }
+                                } catch (e: Exception) {
+                                    Log.d(TAG, "onCreate: ${e.message} - $it")
+                                    showToast(e.message)
+                                }
                             })
                     },
                     scaffoldState = scaffoldState,
                     floatingActionButton = {
                         FloatingActionButton(
                             onClick = { /*TODO*/ },
+
                             backgroundColor = FoodNutColors.Green
                         ) {
                             Icon(imageVector = Icons.Filled.Camera, contentDescription = "Add",tint = Color.White)

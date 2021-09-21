@@ -47,7 +47,11 @@ import kotlin.math.roundToInt
 
 @ExperimentalCoilApi
 @Composable
-fun RecipeDetailScreen(recipe: RecipeObject) {
+fun RecipeDetailScreen(
+    recipe: RecipeObject,
+    onFavouriteClicked: () -> Unit,
+    onBackClicked: () -> Unit
+) {
     var ingredientInDialog: IngredientObject? by remember {
         mutableStateOf(null)
     }
@@ -73,8 +77,8 @@ fun RecipeDetailScreen(recipe: RecipeObject) {
         CustomizedTopBar(
             leftIcon = Icons.Filled.ArrowBackIosNew,
             rightIcon = Icons.Filled.Favorite,
-            leftClick = { /*TODO*/ }) {
-        }
+            leftClick = onBackClicked, rightClick = onFavouriteClicked
+        )
 
         Text(
             text = recipe.label,

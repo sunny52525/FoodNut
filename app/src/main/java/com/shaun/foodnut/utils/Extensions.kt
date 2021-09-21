@@ -19,7 +19,7 @@ class Extensions {
             }
 
 
-        fun Activity.showToast(message: String) {
+        fun Activity.showToast(message: String?) {
             Toast.makeText(this.applicationContext, message, Toast.LENGTH_SHORT).show()
         }
 

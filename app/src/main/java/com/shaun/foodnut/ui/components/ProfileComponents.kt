@@ -116,9 +116,7 @@ fun ProfileRowItem(iconAndLabel: IconAndLabel) {
                 )
                 .padding(grid_1)
         )
-        Button(onClick = { /*TODO*/ }) {
 
-        }
 
     }
 

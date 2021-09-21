@@ -176,33 +176,29 @@ object Constants {
 
     val DRAWER_ITEMS = listOf(
         IconAndLabel(
-            label = "Home",
+            label = DrawerItems.Home.name,
             icon = Icons.Filled.Home
         ),
         IconAndLabel(
-            label = "Favourites",
+            label = DrawerItems.Favourites.name,
             icon = Icons.Filled.Favorite
         ),
         IconAndLabel(
-            label = "Search",
+            label = DrawerItems.Search.name,
             icon = Icons.Filled.Search
         ),
         IconAndLabel(
-            label = "Add Recipe",
+            label = DrawerItems.AddRecipe.name,
             icon = Icons.Filled.Add
         ),
         IconAndLabel(
-            label = "Recipe Community",
+            label = DrawerItems.RecipeCommunity.name,
             icon = Icons.Filled.People
         ),
         IconAndLabel(
-            label = "Profile",
+            label = DrawerItems.Profile.name,
             icon = Icons.Filled.AccountCircle
         ),
-        IconAndLabel(
-            label = "Settings",
-            icon = Icons.Filled.Settings
-        )
     )
 
     val ProfileItems = listOf(

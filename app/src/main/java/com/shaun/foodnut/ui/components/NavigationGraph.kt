@@ -11,9 +11,11 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.fragment.NavHostFragment
 import coil.annotation.ExperimentalCoilApi
 import com.shaun.foodnut.models.recipes.RecipeObject
 import com.shaun.foodnut.ui.navigation.Routes
@@ -34,9 +36,9 @@ import com.shaun.foodnut.viewmodels.SearchViewModel
 fun NavigationGraph(
     homeViewModel: HomeViewModel,
     paddingValues: PaddingValues,
+    navController:NavHostController,
     onDrawerClicked: () -> Unit,
 ) {
-    val navController = rememberNavController()
     NavHost(
         navController = navController,
         startDestination = Routes.Home.route,
@@ -61,7 +63,10 @@ fun NavigationGraph(
                 recipes = recipes,
                 modifier = Modifier.padding(paddingValues = paddingValues),
                 onDrawerClicked = onDrawerClicked,
-                navController = navController
+                navController = navController,
+                onSearchClicked = {
+                    navController.navigate(Routes.SearchScreen.route)
+                }
             )
         }
 
@@ -70,7 +75,11 @@ fun NavigationGraph(
                 navController.previousBackStackEntry?.arguments?.getParcelable<RecipeObject>("recipe")
 
             if (recipe != null) {
-                RecipeDetailScreen(recipe = recipe)
+                RecipeDetailScreen(recipe = recipe, onBackClicked = {
+                    navController.popBackStack()
+                }, onFavouriteClicked = {
+
+                })
             }
         }
 

@@ -40,6 +40,7 @@ import com.shaun.foodnut.utils.Constants
 import kotlinx.coroutines.launch
 
 
+// TODO: 9/19/2021 Infinite Scrolling
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
@@ -51,7 +52,8 @@ fun HomeScreen(
     selectedItem: String,
     onDrawerClicked: () -> Unit,
     recipes: Resource<RecipeResponse>?,
-    navController: NavHostController
+    navController: NavHostController,
+    onSearchClicked: () -> Unit
 ) {
 
 
@@ -83,9 +85,10 @@ fun HomeScreen(
             TopArea(modifier = Modifier.padding(horizontal = SidePadding)) {
 
                 Greeting(time = "Good Morning", name = "Sunny")
-                SearchPlaceholder(placeholder = "Search Recipes,foods,nutrients", onClick = {
-
-                })
+                SearchPlaceholder(
+                    placeholder = "Search Recipes,foods,nutrients",
+                    onClick = onSearchClicked
+                )
             }
         }
 
@@ -215,7 +218,6 @@ fun HomeScreen(
         }
 
 
-
     }
 }
 
@@ -232,6 +234,6 @@ fun HomePreview() {
         selectedItem = "Pasta",
         onDrawerClicked = {},
         recipes = null,
-        navController = rememberNavController()
+        navController = rememberNavController(), onSearchClicked = {}
     )
 }

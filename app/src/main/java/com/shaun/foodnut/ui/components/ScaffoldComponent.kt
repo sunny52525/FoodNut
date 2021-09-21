@@ -21,7 +21,7 @@ import com.shaun.foodnut.utils.Constants
 fun Drawer(
     items: List<IconAndLabel>,
     selectedRoute: String,
-    onClick: (Int) -> Unit
+    onClick: (String) -> Unit
 ) {
     Column(
         Modifier
@@ -40,7 +40,7 @@ fun Drawer(
                 iconAndLabel = item,
                 isSelected = selectedRoute == item.label
             ) {
-                onClick(index)
+                onClick(item.label)
             }
         }
     }
