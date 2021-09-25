@@ -5,6 +5,7 @@ import androidx.compose.material.icons.filled.*
 import com.shaun.foodnut.R
 import com.shaun.foodnut.models.ChipsItem
 import com.shaun.foodnut.models.IconAndLabel
+import com.shaun.foodnut.models.NutrientAndCode
 
 object Constants {
     val HEALTH_LABELS = listOf(
@@ -78,6 +79,141 @@ object Constants {
         "nutrients[VITC]",
         "nutrients[VITD]",
         "nutrients[VITK1]",
+    )
+
+    val NUTRIENT_TYPES_FOR_RANGE: List<NutrientAndCode> = listOf(
+        NutrientAndCode(
+            "Calcium",
+            "nutrients[CA]"
+        ),
+        NutrientAndCode(
+            "Carbs(g)",
+            "nutrients[CHOCDF]"
+        ),
+        NutrientAndCode(
+            "Cholesterol(mg)",
+            "nutrients[CHOLE]"
+        ),
+        NutrientAndCode(
+            "Monounsaturated(g)",
+            "nutrients[FAMS]",
+        ),
+        NutrientAndCode(
+            "Polyunsaturated(g)",
+            "nutrients[FAPU]"
+        ),
+        NutrientAndCode(
+            "Saturated(g)",
+            "nutrients[FASAT]",
+        ),
+        NutrientAndCode(
+            "Fat(g)",
+            "nutrients[FAT]"
+        ),
+        NutrientAndCode(
+            "Trans Fat(g)",
+            "nutrients[FATRN]"
+        ),
+        NutrientAndCode(
+            "Iron(mg)",
+            "nutrients[FE]"
+        ),
+        NutrientAndCode(
+            "Fiber(g)",
+            "nutrients[FIBTG]"
+        ),
+        NutrientAndCode(
+            "Folic Acid(æg)",
+            "nutrients[FOLAC]"
+        ),
+        NutrientAndCode(
+            "Folate Food(æg)",
+            "nutrients[FOLFD]"
+        ),
+        NutrientAndCode(
+            "Folate (Equivalent)(æg)",
+            "nutrients[FOLDFE]"
+        ),
+
+        NutrientAndCode(
+            "Potassium(mg)",
+            "nutrients[K]",
+        ),
+        NutrientAndCode(
+            "Magnesium(mg)",
+            "nutrients[MG]",
+        ),
+
+        NutrientAndCode(
+            "Sodium(mg)",
+            "nutrients[NA]",
+        ),
+
+        NutrientAndCode(
+            "Energy(Kcal)",
+            "nutrients[ENERC_KCAL]"
+        ),
+        NutrientAndCode(
+            "Niacin(B3)",
+            "nutrients[NIA]"
+        ),
+
+        NutrientAndCode(
+            "Phosphorus(mg)",
+            "nutrients[P]",
+        ),
+        NutrientAndCode(
+            "Protein(g)",
+            "nutrients[PROCNT]",
+        ),
+        NutrientAndCode(
+            "Riboflavin (B2)(mg)",
+            "nutrients[RIBF]",
+        ),
+        NutrientAndCode(
+            "SUGAR(g)",
+            "nutrients[SUGAR]",
+        ),
+        NutrientAndCode(
+            "Thiamin(B1)(mg)",
+            "nutrients[THIA]",
+        ),
+        NutrientAndCode(
+            "Vitamin E (mg)",
+            "nutrients[TOCPHA]",
+        ),
+        NutrientAndCode(
+            "Vitamin A(mg)",
+            "nutrients[VITA_RAE]",
+        ),
+        NutrientAndCode(
+            "Vitamin B12(æg)",
+            "nutrients[VITB12]",
+        ),
+        NutrientAndCode(
+            "Vitamin B6(mg)",
+            "nutrients[VITB6A]",
+        ),
+        NutrientAndCode(
+            "Vitamin C(mg)",
+            "nutrients[VITC]",
+        ),
+        NutrientAndCode(
+            "Vitamin D(æg)",
+            "nutrients[VITD]",
+        ),
+        NutrientAndCode(
+            "Vitamin K(æg)",
+            "nutrients[VITK1]",
+        ),
+        NutrientAndCode(
+            "Water(g)",
+            "nutrients[WATER]"
+        ),
+        NutrientAndCode(
+            "Zinc(g)",
+            "nutrients[ZN]"
+        )
     )
 
     val DIET = listOf(

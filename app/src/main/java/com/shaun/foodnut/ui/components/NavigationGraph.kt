@@ -41,7 +41,7 @@ fun NavigationGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Routes.Home.route,
+        startDestination = Routes.SearchScreen.route,
         modifier = Modifier.padding(top = grid_2_5)
     ) {
 
