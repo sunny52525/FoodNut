@@ -45,6 +45,7 @@ import com.shaun.foodnut.ui.theme.Dimens.grid_1_25
 import com.shaun.foodnut.ui.theme.FoodNutColors.Green
 import com.shaun.foodnut.ui.theme.POPPINS
 import com.shaun.foodnut.utils.Constants
+import com.shaun.foodnut.viewmodels.SearchViewModel
 
 @ExperimentalComposeUiApi
 @Composable
@@ -96,23 +97,19 @@ fun SearchBar(
 }
 
 
-@Preview(showBackground = true)
 @Composable
 fun FoodNutDropDown(
-    modifier: Modifier = Modifier,
-    title: String = "Type",
-    dropdownContent: List<String> = Constants.DIET,
-    placeholder: String = "Diet",
-    onclick: (String) -> Unit = {}
+        modifier: Modifier = Modifier,
+        title: String = "Type",
+        dropdownContent: List<String> = Constants.DIET,
+        checked: MutableList<Boolean>,
+
+        onclick: (Int) -> Unit
 ) {
     var expanded by remember {
         mutableStateOf(false)
     }
-    val checked: MutableList<Boolean> by remember {
-        mutableStateOf(MutableList(dropdownContent.size) {
-            false
-        })
-    }
+
 
     val angle: Float by animateFloatAsState(
         targetValue = if (expanded) 180F else 0F,
@@ -184,9 +181,8 @@ fun FoodNutDropDown(
                     }
 
                     DropdownMenuItem(onClick = {
-                        onclick(label)
+                        onclick(index)
                         ch = ch.not()
-                        checked[index] = checked[index].not()
                     }) {
 
 
@@ -466,14 +462,23 @@ fun RangeSelector(heading: String) {
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @Composable
-fun SearchScreenTopArea() {
-    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+fun SearchScreenTopArea(viewModel: SearchViewModel) {
+    val checkedDiet by viewModel.checkedDiet
+    val checkedHealth by viewModel.checkedHealth
+    val checkedCuisine by viewModel.checkedCuisine
+    val checkedMeal by viewModel.checkedMeal
+    val checkedDishType by viewModel.checkedDishType
+
+    Row(Modifier
+            .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
         FoodNutDropDown(
-            modifier = Modifier
-                .fillMaxWidth(0.5f),
-            title = "Diet",
-            dropdownContent = Constants.DIET
-        )
+                modifier = Modifier
+                        .fillMaxWidth(0.5f),
+                title = "Diet",
+                dropdownContent = Constants.DIET,
+                checkedDiet, onclick = { index ->
+            checkedDiet[index] = checkedDiet[index].not()
+        })
 
         Spacer(modifier = Modifier.width(10.dp))
 
@@ -483,18 +488,23 @@ fun SearchScreenTopArea() {
                         .fillMaxWidth(0.5f),
                 title = "Health",
                 dropdownContent = Constants.HEALTH_LABELS,
+                checkedHealth, onclick = { index ->
 
-
-                )
+            checkedHealth[index] = checkedHealth[index].not()
+        })
     }
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
 
         FoodNutDropDown(
-            modifier = Modifier
-                .fillMaxWidth(0.5f),
-            title = "Cuisine Type",
-            dropdownContent = Constants.CUISINE_TYPE
-        )
+                modifier = Modifier
+                        .fillMaxWidth(0.5f),
+                title = "Cuisine Type",
+                dropdownContent = Constants.CUISINE_TYPE,
+                checkedCuisine, onclick = { index ->
+
+
+            checkedCuisine[index] = checkedCuisine[index].not()
+        })
 
         Spacer(modifier = Modifier.width(10.dp))
 
@@ -504,18 +514,23 @@ fun SearchScreenTopArea() {
                         .fillMaxWidth(0.5f),
                 title = "Meal Type",
                 dropdownContent = Constants.MEAL_TYPE,
+                checkedMeal, onclick = { index ->
 
-                )
+            checkedMeal[index] = checkedMeal[index].not()
+        })
     }
 
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
 
         FoodNutDropDown(
-            modifier = Modifier
-                .fillMaxWidth(0.5f),
-            title = "Dish Type",
-            dropdownContent = Constants.DISH_TYPE
-        )
+                modifier = Modifier
+                        .fillMaxWidth(0.5f),
+                title = "Dish Type",
+                dropdownContent = Constants.DISH_TYPE,
+                checkedDishType, onclick = { index ->
+
+            checkedDishType[index] = checkedDishType[index].not()
+        })
 
         Spacer(modifier = Modifier.width(10.dp))
 

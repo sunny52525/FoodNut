@@ -109,7 +109,9 @@ interface ApiService {
         /**
          * [Constants.NUTRIENT_TYPES]
          */
-        @QueryMap nutrients: HashMap<String, String> = HashMap()
+        @QueryMap nutrients: HashMap<String, String> = HashMap(),
+
+        @QueryMap nextPage :HashMap<String,String> = HashMap()
 
     ): RecipeResponse
 

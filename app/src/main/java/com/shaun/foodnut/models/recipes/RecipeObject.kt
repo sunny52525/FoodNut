@@ -40,7 +40,7 @@ data class RecipeObject(
 data class IngredientObject(
     val text: String,
     val weight: Float,
-    val foodCategory: String,
+    val foodCategory: String?,
     val foodId: String,
     val image: String?,
     val food: String?,

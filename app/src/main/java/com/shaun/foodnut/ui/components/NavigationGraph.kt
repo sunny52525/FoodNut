@@ -14,8 +14,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.fragment.NavHostFragment
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil.annotation.ExperimentalCoilApi
 import com.shaun.foodnut.models.recipes.RecipeObject
 import com.shaun.foodnut.ui.navigation.Routes
@@ -41,7 +40,7 @@ fun NavigationGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Routes.SearchScreen.route,
+        startDestination = Routes.Home.route,
         modifier = Modifier.padding(top = grid_2_5)
     ) {
 
@@ -49,7 +48,7 @@ fun NavigationGraph(
         composable(Routes.Home.route) {
             val foodItems by homeViewModel.foodItems.observeAsState()
             val selectedItem = homeViewModel.selectedItem
-            val recipes by homeViewModel.recipes.observeAsState()
+            val recipes = homeViewModel.recipesPaging?.collectAsLazyPagingItems()
             HomeScreen(
                 foodItems = foodItems,
                 onChipItemChanged = {

@@ -24,11 +24,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.items
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.shaun.foodnut.models.foodparser.FoodParsed
-import com.shaun.foodnut.models.recipes.RecipeResponse
+import com.shaun.foodnut.models.recipes.Hits
 import com.shaun.foodnut.network.Resource
 import com.shaun.foodnut.network.Status
 import com.shaun.foodnut.ui.components.*
@@ -51,7 +52,7 @@ fun HomeScreen(
     onChipItemChanged: (String) -> Unit,
     selectedItem: String,
     onDrawerClicked: () -> Unit,
-    recipes: Resource<RecipeResponse>?,
+    recipes: LazyPagingItems<Hits>?,
     navController: NavHostController,
     onSearchClicked: () -> Unit
 ) {
@@ -160,7 +161,8 @@ fun HomeScreen(
                                 modifier = Modifier
                                     .height(382.dp)
                                     .width(200.dp),
-                                isVisible = foodItems?.status == Status.LOADING
+                                isVisible = foodItems?.status == Status.LOADING,
+                                count = 3
                             )
                         }
 
@@ -192,31 +194,38 @@ fun HomeScreen(
                     .height(200.dp)
                     .fillMaxWidth()
                     .padding(horizontal = SidePadding),
-                isVisible = recipes?.status == Status.LOADING
+                isVisible = recipes?.itemCount == 0,
+                count = 3
             )
         }
-        items(recipes?.data?.hits ?: listOf()) { recipe ->
-            BottomHomeItems(Modifier.padding(horizontal = SidePadding)) {
-                FoodCardHorizontal(
-                    image = rememberImagePainter(data = recipe.recipe.image),
-                    title = recipe.recipe.label,
-                    subtitle = recipe.recipe.source,
-                    isFavourite = false,
-                    onClick = {
-                        Log.d("TAG", "HomeScreen: ${recipe.recipe} ")
-                        navController.currentBackStackEntry?.arguments = Bundle().apply {
-                            putParcelable("recipe", recipe.recipe)
-                        }
-                        navController.navigate(Routes.RecipeDetail.route)
-                    },
-                    onFavouriteClicked = {
 
-                    },
-                    bottomText = "${recipe.recipe.totalNutrients.ENERC_KCAL?.quantity?.toInt()} KCAL"
-                )
+        recipes?.let {
+            items(recipes) { recipe ->
+                recipe?.let {
+                    BottomHomeItems(Modifier.padding(horizontal = SidePadding)) {
+                        FoodCardHorizontal(
+                            image = rememberImagePainter(data = recipe.recipe.image),
+                            title = recipe.recipe.label,
+                            subtitle = recipe.recipe.source,
+                            isFavourite = false,
+                            onClick = {
+                                Log.d("TAG", "HomeScreen: ${recipe.recipe} ")
+                                navController.currentBackStackEntry?.arguments = Bundle().apply {
+                                    putParcelable("recipe", recipe.recipe)
+                                }
+                                navController.navigate(Routes.RecipeDetail.route)
+                            },
+                            onFavouriteClicked = {
+
+                            },
+                            bottomText = "${recipe.recipe.totalNutrients.ENERC_KCAL?.quantity?.toInt()} KCAL"
+                        )
+                    }
+                }
+
             }
-        }
 
+        }
 
     }
 }
@@ -228,12 +237,5 @@ fun HomeScreen(
 @Composable
 fun HomePreview() {
 
-    HomeScreen(
-        foodItems = Resource(Status.IDLE, null, null),
-        onChipItemChanged = {},
-        selectedItem = "Pasta",
-        onDrawerClicked = {},
-        recipes = null,
-        navController = rememberNavController(), onSearchClicked = {}
-    )
+
 }

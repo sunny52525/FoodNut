@@ -27,7 +27,8 @@ class HomeRepository(
         )
     }
 
-    suspend fun getRecipes(query: String): RecipeResponse {
+    suspend fun getRecipes(query: String, nextPage:String?=null): RecipeResponse {
+
         return apiService.getRecipe(
             q = query,
             appId = apiKeys.recipeAppId,
@@ -37,6 +38,13 @@ class HomeRepository(
                     "imageSize",
                     Constants.IMAGE_SIZE[2]
                 )
+            },
+            nextPage = if (nextPage!=null){
+                HashMap<String,String>().apply {
+                    put("_cont",nextPage)
+                }
+            }else {
+                HashMap()
             }
         )
     }

@@ -5,9 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -32,13 +30,14 @@ fun SearchScreen(modifier: Modifier = Modifier, viewModel: SearchViewModel) {
 
     val itemsAdded by viewModel.itemsAdded
 
+
     Column(
-            modifier = modifier
-                    .fillMaxSize()
-                    .background(
-                            FoodNutColors.Background
-                    )
-                    .padding(top = 40.dp, start = grid_2, end = grid_3, bottom = grid_1)
+        modifier = modifier
+            .fillMaxSize()
+            .background(
+                FoodNutColors.Background
+            )
+            .padding(top = 40.dp, start = grid_2, end = grid_3, bottom = grid_1)
     ) {
         Row(
             Modifier.fillMaxWidth(),
@@ -47,7 +46,7 @@ fun SearchScreen(modifier: Modifier = Modifier, viewModel: SearchViewModel) {
             SearchBar(
                     query = "Search",
                     onValueChange = {},
-                    onSearch = { /*TODO*/ },
+                    onSearch = {viewModel.search() },
                     modifier = Modifier.weight(
                             1.5f
                     )
@@ -64,7 +63,7 @@ fun SearchScreen(modifier: Modifier = Modifier, viewModel: SearchViewModel) {
         }
         LazyColumn {
             item {
-                SearchScreenTopArea()
+                SearchScreenTopArea(viewModel)
             }
             item {
 

@@ -30,6 +30,7 @@ import com.google.accompanist.placeholder.material.placeholder
 import com.google.accompanist.placeholder.material.shimmer
 import com.shaun.foodnut.R
 import com.shaun.foodnut.ui.theme.Dimens.SidePadding
+import com.shaun.foodnut.ui.theme.Dimens.grid_1_25
 import com.shaun.foodnut.ui.theme.FoodNutColors
 import com.shaun.foodnut.ui.theme.POPPINS
 import com.shaun.foodnut.utils.Extensions.Companion.noRippleClickable
@@ -307,21 +308,25 @@ fun SelectableChipPreview() {
 
 
 @Composable
-fun Shimmer(modifier: Modifier, isVisible: Boolean) {
+fun Shimmer(modifier: Modifier, isVisible: Boolean, count: Int) {
 
     if (isVisible)
-        Card(
-            modifier
+        Column {
+            repeat(count) {
+                Box(
+                    modifier
 
-                .placeholder(
-                    true,
-                    highlight = PlaceholderHighlight.shimmer(),
-                    placeholderFadeTransitionSpec = { tween(10) }
+                        .placeholder(
+                            true,
+                            highlight = PlaceholderHighlight.shimmer(),
+                            placeholderFadeTransitionSpec = { tween(10) }
+                        )
+
                 )
-
-        ) {
-
+                Spacer(modifier = Modifier.height(grid_1_25))
+            }
         }
+
 
 }
 
