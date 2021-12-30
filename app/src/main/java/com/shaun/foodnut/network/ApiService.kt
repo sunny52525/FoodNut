@@ -71,32 +71,32 @@ interface ApiService {
         @Query("app_id") appId: String,
         @Query("app_key") appKey: String,
 //        @Query("ingr") ingrCount: String = "0+",
-        @Query("type") type:String="public",
+        @Query("type") type: String = "public",
 
         /**
          * [Constants.DIET]
          */
-        @QueryMap diet: HashMap<String, String> = HashMap(),
+        @Query("diet[]") diet: List<String> = listOf(),
 
         /**
          * [Constants.HEALTH_LABELS]
          */
-        @QueryMap health: HashMap<String, String> = HashMap(),
+        @Query(" health[]") health: List<String> = listOf(),
 
         /**
          * [Constants.CUISINE_TYPE]
          */
-        @QueryMap cuisineType: HashMap<String, String> = HashMap(),
+        @Query("cuisineType[]") cuisineType: List<String> = listOf(),
 
         /**
          * [Constants.MEAL_TYPE]
          */
-        @QueryMap mealType: HashMap<String, String> = HashMap(),
+        @Query("mealType[]") mealType: List<String> = listOf(),
 
         /**
          * [Constants.DISH_TYPE]
          */
-        @QueryMap dishType: HashMap<String, String> = HashMap(),
+        @Query("dishType[]") dishType: List<String> = listOf(),
 
 //        @Query("calories") calories: String = "0+",
 

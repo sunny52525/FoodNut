@@ -213,69 +213,71 @@ fun IngredientDialog(ingredient: IngredientObject?, onDialogClose: () -> Unit) {
 
     ingredient?.let {
         Dialog(onDismissRequest = onDialogClose) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.White),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Close,
-                    contentDescription = "",
-                    modifier = Modifier
-                        .noRippleClickable(onDialogClose)
-                        .align(Alignment.TopEnd)
-                        .background(Green)
-                        .zIndex(5f)
-                        .padding(grid_1),
-                    tint = Color.White,
+           Card(shape = RoundedCornerShape(grid_1)) {
+               Box(
+                   modifier = Modifier
+                       .fillMaxWidth()
+                       .background(Color.White),
+                   contentAlignment = Alignment.Center
+               ) {
+                   Icon(
+                       imageVector = Icons.Filled.Close,
+                       contentDescription = "",
+                       modifier = Modifier
+                           .noRippleClickable(onDialogClose)
+                           .align(Alignment.TopEnd)
+                           .background(Green)
+                           .zIndex(5f)
+                           .padding(grid_1),
+                       tint = Color.White,
 
-                    )
-                Column(
-                    modifier = Modifier
-                        .padding(grid_1_25)
-                        .fillMaxWidth()
-                        .border(1.dp, color = FoodNutColors.Green)
-                        .padding(grid_0_5),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = ingredient.food.toString(),
-                        color = Color.Black,
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.SemiBold,
-                        fontFamily = POPPINS,
-                    )
+                       )
+                   Column(
+                       modifier = Modifier
+                           .padding(grid_1_25)
+                           .fillMaxWidth()
+                           .border(1.dp, color = FoodNutColors.Green)
+                           .padding(grid_0_5),
+                       verticalArrangement = Arrangement.Center,
+                       horizontalAlignment = Alignment.CenterHorizontally
+                   ) {
+                       Text(
+                           text = ingredient.food.toString(),
+                           color = Color.Black,
+                           textAlign = TextAlign.Center,
+                           fontWeight = FontWeight.SemiBold,
+                           fontFamily = POPPINS,
+                       )
 
-                    Image(
-                        painter = if (ingredient.image != null) rememberImagePainter(ingredient.image) else painterResource(
-                            id = R.drawable.food_dummy
-                        ),
-                        contentDescription = "Image",
-                        modifier = Modifier
-                            .fillMaxWidth(0.5f)
-                            .fillMaxHeight(0.6f),
-                        contentScale = ContentScale.Crop
-                    )
+                       Image(
+                           painter = if (ingredient.image != null) rememberImagePainter(ingredient.image) else painterResource(
+                               id = R.drawable.food_dummy
+                           ),
+                           contentDescription = "Image",
+                           modifier = Modifier
+                               .fillMaxWidth(0.5f)
+                               .fillMaxHeight(0.6f),
+                           contentScale = ContentScale.Crop
+                       )
 
-                    Text(
-                        text = "${ingredient.quantity} ${ingredient.measure}, ${ingredient.weight}grams",
-                        color = Color.Gray,
-                        textAlign = TextAlign.Center,
+                       Text(
+                           text = "${ingredient.quantity} ${ingredient.measure}, ${ingredient.weight}grams",
+                           color = Color.Gray,
+                           textAlign = TextAlign.Center,
 
-                        )
-                    Text(
-                        text = ingredient.text,
-                        color = Color.Gray,
-                        textAlign = TextAlign.Center,
+                           )
+                       Text(
+                           text = ingredient.text,
+                           color = Color.Gray,
+                           textAlign = TextAlign.Center,
 
-                        )
+                           )
 
 
-                }
-            }
+                   }
+               }
 
+           }
         }
 
     }

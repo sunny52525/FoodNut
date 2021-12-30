@@ -1,7 +1,7 @@
 package com.shaun.foodnut.ui.screens
 
 import android.util.Log
-import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -45,6 +45,7 @@ import com.shaun.foodnut.utils.Extensions.Companion.toPairArray
 import kotlin.math.roundToInt
 
 
+@ExperimentalAnimationApi
 @ExperimentalCoilApi
 @Composable
 fun RecipeDetailScreen(
@@ -58,11 +59,13 @@ fun RecipeDetailScreen(
     var dialogShown by remember {
         mutableStateOf(false)
     }
-    if (dialogShown) {
+
+    if(dialogShown) {
         IngredientDialog(ingredient = ingredientInDialog) {
             dialogShown = dialogShown.not()
         }
     }
+
 
     var fullHealthLabelShown by remember {
         mutableStateOf(false)

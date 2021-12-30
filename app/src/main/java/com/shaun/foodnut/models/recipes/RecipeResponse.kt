@@ -6,6 +6,6 @@ data class RecipeResponse(
     val from:Int,
     val to:Int,
     val count:Long,
-    val _links:Links,
+    val _links:Links?,
     val hits:ArrayList<Hits>,
 )

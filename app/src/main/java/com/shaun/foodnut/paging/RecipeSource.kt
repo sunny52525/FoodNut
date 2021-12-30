@@ -25,7 +25,7 @@ class RecipeSource(
             LoadResult.Page(
                 data = result.hits,
                 prevKey = null,
-                nextKey = Pair(nextPageQuery, getQuery(result._links.next.href))
+                nextKey = Pair(nextPageQuery, result._links?.next?.href?.let { getQuery(it) })
             )
         } catch (e: Exception) {
             LoadResult.Error(e)
