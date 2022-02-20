@@ -9,6 +9,7 @@ class BaseApplication : Application() {
         System.loadLibrary("keys")
     }
 
+	
     external fun getRecipeApplicationId(): String
     external fun getNutritionAnalysisApplicationId(): String
     external fun getNutritionAnalysisApiKey(): String
